@@ -99,7 +99,9 @@ def main(args):
             print('Skipping %s due to invalid base MVAE results...' % (seq_name))
             continue
 
-        # load in GT        
+        # load in GT
+        print(result_dir)
+        print(GT_RES_NAME)
         gt_res = load_res(result_dir, GT_RES_NAME + '.npz')
         if gt_res is None:
             print('Could not find GT data for %s, skipping...' % (seq_name))

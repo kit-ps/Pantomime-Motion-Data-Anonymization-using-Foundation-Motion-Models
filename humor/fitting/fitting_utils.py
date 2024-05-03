@@ -280,6 +280,7 @@ def save_optim_result(cur_res_out_paths, optim_result, per_stage_results, gt_dat
     res_trans = optim_result['trans'].cpu().numpy()
     res_root_orient = optim_result['root_orient'].cpu().numpy()
     res_body_pose = optim_result['pose_body'].cpu().numpy()
+    res_latent_motion = optim_result['latent_motion'].cpu().numpy()
     res_contacts = None
     res_floor_plane = None
     if 'contacts' in optim_result:
@@ -292,7 +293,8 @@ def save_optim_result(cur_res_out_paths, optim_result, per_stage_results, gt_dat
             'betas' : res_betas[bidx],
             'trans' : res_trans[bidx],
             'root_orient' : res_root_orient[bidx],
-            'pose_body' : res_body_pose[bidx]
+            'pose_body' : res_body_pose[bidx],
+            'latent_motion': res_latent_motion[bidx]
         }
         if res_contacts is not None:
             save_dict['contacts'] = res_contacts[bidx]

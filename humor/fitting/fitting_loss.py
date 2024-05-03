@@ -104,6 +104,12 @@ class FittingLoss(nn.Module):
             loss += self.loss_weights['joints3d']*cur_loss
             stats_dict['joints3d'] = cur_loss
 
+        # Pose body
+        if 'pose_body' in observed_data and 'pose_body' in pred_data and self.loss_weights['pose_body'] > 0.0:
+            cur_loss = self.joints3d_loss(observed_data['pose_body'], pred_data['pose_body'])
+            loss += self.loss_weights['pose_body']*cur_loss
+            stats_dict['pose_body'] = cur_loss
+
         # Select vertices in 3D space
         if 'verts3d' in observed_data and 'verts3d' in pred_data and self.loss_weights['verts3d'] > 0.0:
             cur_loss = self.verts3d_loss(observed_data['verts3d'], pred_data['verts3d'])
@@ -272,6 +278,12 @@ class FittingLoss(nn.Module):
             cur_loss = self.joints3d_loss(observed_data['joints3d'], pred_data['joints3d_rollout'])
             loss += self.loss_weights['joints3d_rollout']*cur_loss
             stats_dict['joints3d_rollout'] = cur_loss
+
+        # make sure rolled out joints orientations match observations too
+        if 'pose_body' in observed_data and 'pose_body' in pred_data and self.loss_weights['pose_body'] > 0.0:
+            cur_loss = self.joints3d_loss(observed_data['pose_body'], pred_data['pose_body'])
+            loss += self.loss_weights['pose_body']*cur_loss
+            stats_dict['pose_body'] = cur_loss
 
         # velocity 0 during contacts
         if self.loss_weights['contact_vel'] > 0.0 and 'contacts_conf' in pred_data and 'joints3d' in pred_data:

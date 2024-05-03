@@ -1099,8 +1099,12 @@ class MotionOptimizer():
         # SELECT body vertices
         verts3d = points3d[:, :T, KEYPT_VERTS, :]
 
+        print("Sequence length", self.seq_len)
+        print("T", T)
+
         pred_data = {
             'joints3d' : body_joints3d,
+            'pose_body': body_pose.reshape((self.batch_size, self.seq_len, J_BODY, 3))[:, :T],
             'points3d' : points3d,
             'verts3d' : verts3d,
             'joints3d_extra' : added_joints3d, # hands and selected OP vertices (if applicable) 

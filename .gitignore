@@ -4,3 +4,8 @@ body_models
 data
 checkpoints
 out
+
+.idea/
+saved/
+checkpoints.zip
+

@@ -7,7 +7,7 @@ def parse_args(argv):
 
     # Observed data options
     parser.add_argument('--data-path', type=str, required=True, help='Path to the data to fit.')
-    parser.add_argument('--data-type', type=str, required=True, choices=['AMASS', 'PROX-RGB', 'PROX-RGBD', 'iMapper-RGB', 'RGB'], help='The type of data we are fitting to.')
+    parser.add_argument('--data-type', type=str, required=True, choices=['AMASS', 'PROX-RGB', 'PROX-RGBD', 'iMapper-RGB', 'RGB', 'CeTI', "Horst"], help='The type of data we are fitting to.')
     parser.add_argument('--data-fps', type=int, default=30, help='Sampling rate of the data.')
     parser.add_argument('--batch-size', type=int, default=1, help='Number of sequences to batch together for fitting to data.')
     parser.add_argument('--shuffle', dest='shuffle', action='store_true', help="Shuffles data.")
@@ -21,6 +21,8 @@ def parse_args(argv):
     parser.add_argument('--amass-seq-len', type=int, default=60, help='Number of frames in AMASS sequences to fit.')
     parser.add_argument('--amass-use-joints', dest='amass_use_joints', action='store_true', help="Use 3D joint observations for fitting.")
     parser.set_defaults(amass_use_joints=False)
+    parser.add_argument('--amass-use-pose-body', dest='amass_use_pose_body', action='store_true', help="Use pose_body observations for fitting.")
+    parser.set_defaults(amass_use_pose_body=False)
     parser.add_argument('--amass-root-joint-only', dest='amass_root_joint_only', action='store_true', help="Use 3D root joint observation for fitting.")
     parser.set_defaults(amass_root_joint_only=False)
     parser.add_argument('--amass-use-verts', dest='amass_use_verts', action='store_true', help="Use subset of 3D mesh vertices observations for fitting.")
@@ -58,6 +60,7 @@ def parse_args(argv):
 
     # Loss weights
     parser.add_argument('--joint3d-weight', type=float, nargs=NSTAGES, default=[0.0, 0.0, 0.0], help='L2 loss on 3D joints')
+    parser.add_argument('--pose-body-weight', type=float, nargs=NSTAGES, default=[0.0, 0.0, 0.0], help='L2 loss on 3D joint orientations')
     parser.add_argument('--joint3d-rollout-weight', type=float,nargs=NSTAGES, default=[0.0, 0.0, 0.0], help='L2 loss on 3D joints from motion prior rollout.')
     parser.add_argument('--joint3d-smooth-weight', type=float,nargs=NSTAGES, default=[0.0, 0.0, 0.0], help='L2 loss on 3D joints differences')
     parser.add_argument('--vert3d-weight', type=float,nargs=NSTAGES, default=[0.0, 0.0, 0.0], help='L2 loss on 3D verts')
